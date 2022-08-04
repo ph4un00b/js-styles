@@ -28,36 +28,36 @@ function SocialNetworkQueries({ fetchCurrentUser }) {
 
     var rank = new Map();
     for (const book of allFriendBooks) {
-      const value = friends.length ** -1;
+      const score = friends.length ** -1;
       if (!rank.has(book)) {
-        rank.set(book, value);
+        rank.set(book, score);
       } else {
-        rank.set(book, rank.get(book) + value);
+        rank.set(book, rank.get(book) + score);
       }
     }
 
-    for (const [k, v] of rank) {
-      if (v < minimalScore) {
-        rank.delete(k);
+    for (const [bookTitle, score] of rank) {
+      if (score < minimalScore) {
+        rank.delete(bookTitle);
       }
     }
 
     order_by_alpha_and_popularity: {
       const order = Array.from(rank);
       order.sort((a, b) => {
-        const [keyA, valueA] = a;
-        const [keyB, valueB] = b;
-        if (valueA == valueB) {
-          return keyA < keyB ? -1 : 1;
+        const [titleA, scoreA] = a;
+        const [titleB, scoreB] = b;
+        if (scoreA == scoreB) {
+          return titleA < titleB ? -1 : 1;
         }
-        return valueB - valueA;
+        return scoreB - scoreA;
       });
 
-      books = order.map((b) => b[0]);
+      books = order.map((bookTuple) => bookTuple[0]);
     }
 
     remove_user_books: {
-      books = books.filter((x) => !userBooks.includes(x));
+      books = books.filter((item) => !userBooks.includes(item));
     }
 
     return Promise.resolve({ books });
