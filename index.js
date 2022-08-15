@@ -1,5 +1,8 @@
-// run `node index.js` in the terminal
-
+'use strict';
+// run `node index.js` in the terminalO
+var hola = 'jamon';
+console.log(globalThis.hola, hola);
+// console.log(__dirname, '.example');
 let racer1 = function () {
   setTimeout(() => console.log('timeout'), 0);
   setImmediate(() => console.log('immediate'));
